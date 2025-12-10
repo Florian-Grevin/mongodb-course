@@ -299,3 +299,41 @@ db = db.getSiblingDB('sample_mflix');
 //     $rename: { rank : 'ranking' },
 //     $inc: { year : 3 }
 // })
+
+//const Amaury = db.movies.find({
+//    actors: "Amaury Reeves"
+//})
+//
+//console.log(Amaury);
+
+/*const upsertResult = db.movies.updateOne({
+    year: -999
+}, {
+    $set: {
+        title: "Jurassic Pâques"
+    }
+}, {
+    upsert: true
+})
+
+console.log(upsertResult)*/
+/*
+const movie = db.movies.find({
+    _id: ObjectId('693989c8fc9808bd93c1dd8f'),
+})
+
+console.log(movie);
+
+const replaced = db.movies.replaceOne({
+    _id: ObjectId('693989c8fc9808bd93c1dd8f'),
+}, {
+    title : "Trump in Belgium",
+    genres: ["Comedy"],
+    year: 2026
+})
+
+const trumpInBelgium = db.movies.find({
+    _id: ObjectId('693989c8fc9808bd93c1dd8f'),
+})
+
+console.log(trumpInBelgium);*/
