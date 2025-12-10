@@ -3,7 +3,7 @@ let db = connect("mongodb://root:test123@localhost:27017?authSource=admin");
 db = db.getSiblingDB('technocite');
 
 // INSERT INTO students (name) VALUES ("Patrick Sébastien")
-const inserted = db.students.insertOne({
+/*const inserted = db.students.insertOne({
     name: "Patrick Sébastien"
 });
 
@@ -25,3 +25,16 @@ const insertFormator = db.formators.insertOne({
 });
 
 console.log(insertFormator);
+
+const students = db.students.find({
+    name: "Fred"
+});
+
+console.log(students);*/
+
+const students = db.students.find({
+    name: {
+        $eq: "Fred"
+    }
+});
+console.log(students);
