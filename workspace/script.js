@@ -1,3 +1,5 @@
+const { title } = require("process");
+
 let db = connect("mongodb://root:test123@localhost:27017?authSource=admin");
 // USE technocite
 //db = db.getSiblingDB('technocite');
@@ -285,7 +287,7 @@ const sammyToScooby = db.students.updateMany({
     }
 });*/
 
-db = db.getSiblingDB('sample_mflix');
+//db = db.getSiblingDB('sample_mflix');
 
 /*console.log(db.movies.find({
     _id: ObjectId('573a1399f29313caabcedc5d')
@@ -337,3 +339,59 @@ const trumpInBelgium = db.movies.find({
 })
 
 console.log(trumpInBelgium);*/
+
+// Exercice 
+db = db.getSiblingDB('sample_mflix');
+
+const increase_by_5_imbd_theron = db.movies.updateMany({
+    cast: "Charlize Theron"
+}, {
+        $inc: {
+            "imdb.rating": 5 
+        }
+});
+console.log(increase_by_5_imbd_theron);
+
+const eliminate_zwart = db.movies.deleteMany({
+    directors: "Harald Zwart"
+});
+console.log(eliminate_zwart);
+
+const addAuthorKeyKey = db.movies.updateMany(
+    {
+        title: {
+            $in: ["+1", "Anamorph"]
+        }
+    },{
+        $push: {
+            cast: "Key Key"
+        }
+    }
+)
+console.log(addAuthorKeyKey);
+
+const removeKeanuFromMatrix = db.movies.updateOne(
+    {
+    title: 'Matrix'
+    },
+    {
+        pull: {
+            cast: 'Keanu Reeves'
+        }
+    }
+)
+console.log(removeKeanuFromMatrix);
+
+const replaceJurassicByMatrix = db.movies.findOne(
+    { 
+        title: "Jurassic Park" 
+    },
+);
+
+delete replaceJurassicByMatrix._id;
+
+const updateJurassic = db.movies.replaceOne({
+    title: "Matrix"
+}, replaceJurassicByMatrix)
+
+console.log(updateJurassic);
