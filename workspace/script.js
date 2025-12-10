@@ -80,7 +80,7 @@ students = db.students.find({
 
 console.log(students)*/
 
-db = db.getSiblingDB('sample_mflix');
+//db = db.getSiblingDB('sample_mflix');
 /*
 const movies = db.movies.find({
     genres: {
@@ -97,8 +97,8 @@ console.log(movies);*/
 });*/
 
 // SELECT tilte FROM movies WHERE released IS NULL
-const movies = db.movies
-.find({
+//const movies = db.movies
+/*.find({
     released: {
         $exists: false
     }
@@ -112,6 +112,153 @@ const movies = db.movies
     year: -1
 })
 .limit(5)
-.count();
+.count();*/
+/*
+.find({
+    $or: 
+    [
+        {
+            $and: [
+                {
+                    year: 2025
+                },
+                {
+                    title: "Jurassic Park"
+                }
+            ]
+        },
+        {
+            year: 2020
+        }
+    ]
+})
+.projection({
+    title: true,
+    year: true,
+    _id: false
+})
+.sort({
+    year: -1
+})
+.limit(5)
 
 console.log(movies);
+*/
+
+//Exos
+db = db.getSiblingDB('sample_mflix');
+const keanu = db.movies
+.find({
+    cast: {
+        $eq: "Keanu Reeves"
+    }
+})
+.projection({
+    title: true,
+    _id: false
+})
+console.log(keanu);
+
+const comedy = db.movies
+.find({
+    genres: {
+        $eq: "Comedy"
+    }
+})
+.projection({
+    title: true,
+    _id: false
+})
+console.log(comedy);
+
+const year_2002_2008 = db.movies
+.find({
+    year: {
+        $in: [2002,2008]
+    }
+})
+.projection({
+    title: true,
+    year: true,
+    _id: false
+})
+console.log(year_2002_2008);
+
+const chris_and_matt = db.movies
+.find({
+    $and: [
+        {
+            cast: "Chris O'Donnell"
+        },
+        {
+            cast: "Matt Damon"
+        }
+    ]
+})
+.projection({
+    title: true,
+    _id: false
+})
+console.log(chris_and_matt);
+
+const neil_or_brad = db.movies
+.find({
+    $or: [
+        {
+            writers: "Neil Burger"
+        },
+        {
+            writers: "Brad Furman"
+        }
+    ]
+})
+.projection({
+    title: true,
+    _id: false
+})
+console.log(neil_or_brad);
+
+
+const oldest_film = db.movies
+.find({
+    year: {
+        $gt: 0
+    }
+})
+.projection({
+    title: true,
+    year: true,
+    _id: false
+})
+.sort({
+    year: 1
+})
+.limit(1)
+console.log(oldest_film);
+
+const critics_notes = db.movies
+.find({
+    "imdb.rating": { $gt: 8.0 },
+    "tomatoes.critic.rating": { $gt: 8.0 }
+})
+.projection({
+    title: true,
+    imbd: true,
+    critic: true,
+    _id: false
+})
+console.log(critics_notes);
+
+const unreleased_movies = db.movies
+.find({
+    released: {
+        $exists: false
+    }
+})
+.projection({
+    title: true,
+    year: true,
+    _id: false
+})
+
+console.log(unreleased_movies);
