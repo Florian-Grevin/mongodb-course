@@ -149,32 +149,32 @@ console.log(movies);
 db = db.getSiblingDB('sample_mflix');
 const keanu = db.movies
 .find({
-    cast: {
-        $eq: "Keanu Reeves"
-    }
+    cast: "Keanu Reeves"
 })
 .projection({
     title: true,
+    cast: true,
     _id: false
 })
-console.log(keanu);
+//console.log(keanu);
 
-const comedy = db.movies
+const comedies = db.movies
 .find({
     genres: {
-        $eq: "Comedy"
+        $in: ["Comedy"]
     }
 })
 .projection({
     title: true,
     _id: false
 })
-console.log(comedy);
+//console.log(comedies);
 
 const year_2002_2008 = db.movies
 .find({
     year: {
-        $in: [2002,2008]
+        $gte: 2002,
+        $lte: 2008
     }
 })
 .projection({
@@ -182,59 +182,53 @@ const year_2002_2008 = db.movies
     year: true,
     _id: false
 })
-console.log(year_2002_2008);
+//console.log(year_2002_2008);
 
 const chris_and_matt = db.movies
 .find({
-    $and: [
-        {
-            cast: "Chris O'Donnell"
-        },
-        {
-            cast: "Matt Damon"
-        }
-    ]
+    cast: {
+        $all: ['Chris O\'Donnell, Matt Damon']
+    }
 })
 .projection({
     title: true,
     _id: false
 })
-console.log(chris_and_matt);
+//console.log(chris_and_matt);
 
 const neil_or_brad = db.movies
 .find({
+    directors: {
+        $in: ['Neil Burger', 'Brad Furman']
+    }
+    /*
     $or: [
         {
-            writers: "Neil Burger"
+            directors: "Neil Burger"
         },
         {
-            writers: "Brad Furman"
+            directors: "Brad Furman"
         }
-    ]
+    ]*/
 })
 .projection({
     title: true,
     _id: false
 })
-console.log(neil_or_brad);
+//console.log(neil_or_brad);
 
 
 const oldest_film = db.movies
 .find({
     year: {
-        $gt: 0
+        $exists: true
     }
-})
-.projection({
-    title: true,
-    year: true,
-    _id: false
 })
 .sort({
     year: 1
 })
 .limit(1)
-console.log(oldest_film);
+//console.log(oldest_film);
 
 const critics_notes = db.movies
 .find({
@@ -247,7 +241,7 @@ const critics_notes = db.movies
     critic: true,
     _id: false
 })
-console.log(critics_notes);
+//console.log(critics_notes);
 
 const unreleased_movies = db.movies
 .find({
@@ -261,4 +255,4 @@ const unreleased_movies = db.movies
     _id: false
 })
 
-console.log(unreleased_movies);
+//console.log(unreleased_movies);
