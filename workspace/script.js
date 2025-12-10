@@ -31,10 +31,36 @@ const students = db.students.find({
 });
 
 console.log(students);*/
-
+/*
 const students = db.students.find({
     name: {
         $eq: "Fred"
     }
 });
 console.log(students);
+*/
+/*
+const students = db.students.find({
+    name: {
+        $ne: "Fred",
+        $eq: "Sammy"
+    }
+});
+console.log(students);
+*/
+
+/*
+db.students.insertOne({
+    name: "Gérard",
+    notes : {
+        geography: 5
+    }
+})*/
+
+students = db.students.find({
+    "notes.geography": {
+        $eq:5
+    }
+})
+
+console.log(students)
