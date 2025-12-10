@@ -144,7 +144,7 @@ console.log(movies);*/
 
 console.log(movies);
 */
-
+/*
 //Exos
 db = db.getSiblingDB('sample_mflix');
 const keanu = db.movies
@@ -201,15 +201,15 @@ const neil_or_brad = db.movies
     directors: {
         $in: ['Neil Burger', 'Brad Furman']
     }
-    /*
-    $or: [
-        {
-            directors: "Neil Burger"
-        },
-        {
-            directors: "Brad Furman"
-        }
-    ]*/
+
+//    $or: [
+//        {
+//            directors: "Neil Burger"
+//        },
+//        {
+//            directors: "Brad Furman"
+//        }
+//    ]
 })
 .projection({
     title: true,
@@ -256,3 +256,33 @@ const unreleased_movies = db.movies
 })
 
 //console.log(unreleased_movies);
+*/
+
+db = db.getSiblingDB('technocite');
+
+const students = db.students.find();
+
+//console.log(students);
+
+const premierEtudiantId = students.toArray()[0]._id;
+
+//UPDATE students SET courses = ["Java", "C#", "MySQL"]
+const updateResult = db.students.updateOne({
+    _id : premierEtudiantId
+}, {
+    $set: {
+        courses: ["Java", "C#", "MySQL"]
+    }
+});
+
+//console.log(updateResult);
+
+const sammyToScooby = db.students.updateMany({
+    name: 'Sammy'
+}, {
+    $set: {
+        name: 'Scooby'
+    }
+});
+
+console.log(sammyToScooby);
