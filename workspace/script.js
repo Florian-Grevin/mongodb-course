@@ -79,9 +79,9 @@ students = db.students.find({
 })
 
 console.log(students)*/
-/*
-db = db.getSiblingDB('sample_mflix');
 
+db = db.getSiblingDB('sample_mflix');
+/*
 const movies = db.movies.find({
     genres: {
         $all: ["Romance", "War"]
@@ -89,3 +89,29 @@ const movies = db.movies.find({
 });
 
 console.log(movies);*/
+
+/*const movies = db.movies.find({
+    genres: {
+        $type: 4
+    }
+});*/
+
+// SELECT tilte FROM movies WHERE released IS NULL
+const movies = db.movies
+.find({
+    released: {
+        $exists: false
+    }
+})
+.projection({
+    title: true,
+    year: true,
+    _id: false
+})
+.sort({
+    year: -1
+})
+.limit(5)
+.count();
+
+console.log(movies);
