@@ -1,6 +1,6 @@
 let db = connect("mongodb://root:test123@localhost:27017?authSource=admin");
 // USE technocite
-db = db.getSiblingDB('technocite');
+//db = db.getSiblingDB('technocite');
 
 // INSERT INTO students (name) VALUES ("Patrick Sébastien")
 /*const inserted = db.students.insertOne({
@@ -57,10 +57,35 @@ db.students.insertOne({
     }
 })*/
 
-students = db.students.find({
+/*students = db.students.find({
     "notes.geography": {
         $eq:5
     }
 })
 
-console.log(students)
+console.log(students)*/
+
+/*db.students.insertOne({
+    name: "Thibaut",
+    notes : {
+        geography: 1
+    }
+})*/
+/*
+students = db.students.find({
+    "notes.geography": {
+        $in: [1,2]
+    }
+})
+
+console.log(students)*/
+/*
+db = db.getSiblingDB('sample_mflix');
+
+const movies = db.movies.find({
+    genres: {
+        $all: ["Romance", "War"]
+    }
+});
+
+console.log(movies);*/
