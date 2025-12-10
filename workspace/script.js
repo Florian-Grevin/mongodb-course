@@ -257,7 +257,7 @@ const unreleased_movies = db.movies
 
 //console.log(unreleased_movies);
 */
-
+/*
 db = db.getSiblingDB('technocite');
 
 const students = db.students.find();
@@ -283,6 +283,19 @@ const sammyToScooby = db.students.updateMany({
     $set: {
         name: 'Scooby'
     }
-});
+});*/
 
-console.log(sammyToScooby);
+db = db.getSiblingDB('sample_mflix');
+
+/*console.log(db.movies.find({
+    _id: ObjectId('573a1399f29313caabcedc5d')
+}))*/
+
+// db.movies.updateOne({
+//     _id: ObjectId('573a1399f29313caabcedc5d')
+// }, {
+//     $set: { genres: ["Drama", "Comedy"] },
+//     $unset: { title : '' },
+//     $rename: { rank : 'ranking' },
+//     $inc: { year : 3 }
+// })
