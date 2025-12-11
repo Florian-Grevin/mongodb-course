@@ -396,7 +396,7 @@ const updateJurassic = db.movies.replaceOne({
 
 console.log(updateJurassic);*/
 
-db = db.getSiblingDB('sample_analytics');
+//db = db.getSiblingDB('sample_analytics');
 
 /** Structure
  *       {
@@ -408,20 +408,68 @@ db = db.getSiblingDB('sample_analytics');
         total: '117350.9255505677344046944199'
       }
  */
-const result = db.transactions.aggregate([
+db = db.getSiblingDB('sample_mflix');
+const result = db.movies.aggregate([
     {
         $match: {
-            account_id: 170945
+            genres: 'Comedy'
         }
     },
+//    {
+//        $group: {
+//            _id: "$account_id",
+//            somme: {
+//                $sum: "$total"
+//            }
+//        }
+//    }
     {
-        $group: {
-            _id: "$account_id",
-            somme: {
-                $sum: "$price"
-            }
+        $unwind: "$genres"
+    },
+
+    {
+        $project: {
+            genres: 1,
+            title: 1
         }
     }
 ])
 
-console.log(result);
+//console.log(result);
+
+const aggregation = db.movies.aggregate([
+    {
+        $match: {
+            year: {
+                $gte: 2010
+        }
+        }
+    },
+    {
+        $count: "$total_count"
+    }
+])
+
+//console.log(aggregation);
+
+//Exercice
+const lameDirectors = db.movies.aggregate([
+    {
+        $match: {
+            "imdb.rating": {$lt: 5}
+        }
+    },
+    {
+        $project: {directors : 1}
+    },
+    {
+        $limit:10
+    },
+    {
+        $out: {
+            db: 'sample_mflix',
+            coll: 'lame_directors'
+        }
+    }
+])
+console.log(lameDirectors);
