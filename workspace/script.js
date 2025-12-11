@@ -339,7 +339,7 @@ const trumpInBelgium = db.movies.find({
 })
 
 console.log(trumpInBelgium);*/
-
+/*
 // Exercice 
 db = db.getSiblingDB('sample_mflix');
 
@@ -394,4 +394,34 @@ const updateJurassic = db.movies.replaceOne({
     title: "Matrix"
 }, replaceJurassicByMatrix)
 
-console.log(updateJurassic);
+console.log(updateJurassic);*/
+
+db = db.getSiblingDB('sample_analytics');
+
+/** Structure
+ *       {
+        date: ISODate('2009-09-23T00:00:00.000Z'),
+        amount: 3548,
+        transaction_code: 'buy',
+        symbol: 'adbe',
+        price: '33.07523268054332987730958848260343074798583984375',
+        total: '117350.9255505677344046944199'
+      }
+ */
+const result = db.transactions.aggregate([
+    {
+        $match: {
+            account_id: 170945
+        }
+    },
+    {
+        $group: {
+            _id: "$account_id",
+            somme: {
+                $sum: "$price"
+            }
+        }
+    }
+])
+
+console.log(result);
