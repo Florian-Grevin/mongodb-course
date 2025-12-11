@@ -408,7 +408,7 @@ console.log(updateJurassic);*/
         total: '117350.9255505677344046944199'
       }
  */
-db = db.getSiblingDB('sample_mflix');
+/*db = db.getSiblingDB('sample_mflix');
 const result = db.movies.aggregate([
     {
         $match: {
@@ -433,10 +433,10 @@ const result = db.movies.aggregate([
             title: 1
         }
     }
-])
+])*/
 
 //console.log(result);
-
+/*
 const aggregation = db.movies.aggregate([
     {
         $match: {
@@ -448,7 +448,7 @@ const aggregation = db.movies.aggregate([
     {
         $count: "$total_count"
     }
-])
+])*/
 
 //console.log(aggregation);
 /*
@@ -505,3 +505,92 @@ console.log(transac);
 ])
 console.log(lameDirectors);
 console.log(db.lame_directors.find());*/
+
+//db = db.getSiblingDB("sample_mflix");
+
+/*const result = db.comments.aggregate([
+    // on joint la collection movies au commentaire
+    {
+        $lookup: {
+            from: "movies",
+            localField: "movie_id",
+            foreignField: "_id",
+            as: "linked_movie"
+        }
+    },
+    // on unwind pour avoir des documents sans la clé linked_movie, car si on unwind un tableau vide, ça retire la clé du document nouvellement créé
+    {
+        $unwind: "$linked_movie"
+    },
+    // on retire les éléments qui n'ont pas de film lié
+    {
+        $match: {
+            linked_movie: {
+                $exists: true
+            }
+        }
+    }
+]);*/
+
+db = db.getSiblingDB("sample_mflix");
+/*
+const result = db.movies.aggregate([
+    {
+        $lookup: {
+            from: "comments",
+            as: "movie_comments",
+            localField: "_id",
+            foreignField: "movie_id"
+            
+        }
+    },
+    {
+        $match: {
+            "movies_comments.0" : {
+                $exists:true
+            }
+        }
+    },
+    {
+        $project: {
+            title: true,
+            movie_comments: true
+        }
+    }
+]);
+
+console.log(result);*/
+
+
+const getTitleFromMovies = db.movies.aggregate([
+    {
+        $lookup: {
+            from: "comments",
+            as: "comments",
+            localField: "_id",
+            foreignField: "movie_id"
+        }
+    },
+    {
+        $match: {
+           comments: {
+             $ne: []
+           }
+        }
+    },
+    {
+        $limit: 5
+    },
+    {
+        $project: {
+            title: true,
+            _id: false,
+            comments: {
+                name: true,
+                email: true
+            }
+        }
+    }
+]);
+
+console.log(getTitleFromMovies);
