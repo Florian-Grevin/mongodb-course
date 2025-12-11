@@ -451,19 +451,50 @@ const aggregation = db.movies.aggregate([
 ])
 
 //console.log(aggregation);
+/*
+db = db.getSiblingDB("sample_analytics");
+const transac = db.transactions.aggregate([
+  { $match: { account_id: { $exists: true } } },
+  { $unwind: "$transactions" },
+  {
+    $group: {
+      _id: "$account_id",
+      somme: { $sum: { $toDecimal: "$transactions.total" } }
+    }
+  },
+  {
+    $limit: 5
+  }
+]);
+
+console.log(transac);
+*/
 
 //Exercice
-const lameDirectors = db.movies.aggregate([
+/*const lameDirectors = db.movies.aggregate([
     {
         $match: {
             "imdb.rating": {$lt: 5}
         }
     },
     {
-        $project: {directors : 1}
+        $unwind: '$directors'
     },
     {
-        $limit:10
+        $group: {
+            _id: '$directors',
+            total: {
+                $count: {}
+            }
+        }
+    },
+    {
+        $sort: {
+            total: -1
+        }
+    },
+    {
+        $limit: 10
     },
     {
         $out: {
@@ -473,3 +504,4 @@ const lameDirectors = db.movies.aggregate([
     }
 ])
 console.log(lameDirectors);
+console.log(db.lame_directors.find());*/
