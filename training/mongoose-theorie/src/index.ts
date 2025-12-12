@@ -266,18 +266,32 @@ async function init() {
     //})
 
     const users = await UserModel.findOne({
-        email: "kit_harington@gameofthron.es"
+        lastName: 'Amaury',
     })
 
+    console.log(users)
     const newUser = new UserModel({
         firstName: 'Jacquy',
         lastName: 'Michel',
         email: 'jacky@michel.be'
     })
 
-    //console.log(users?.getFullName())
-    await newUser.save();
-    console.log(newUser?.getFullName())
+     //console.log(users?.getFullName())
+     await newUser.save();
+     console.log(newUser?.getFullName())
+
+    users.overwrite({
+        lastName: 'Amaury',
+        firstName: 'Deflorenne',
+        email: 'amaury@triptuk.eu',
+        password: '123456789'
+    })
+
+    await UserModel.findAndSave(users._id.toString(), {
+        lastName: 'Amaury',
+        firstName: 'Larry',
+        email: 'amaury@gmail.com.'
+    });
 }   
 
 

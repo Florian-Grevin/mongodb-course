@@ -43,7 +43,7 @@ interface UserMethodsInterface {
 
 // Interface qui défini les méthodes statiques liées au Modèle
 interface UserStaticsInterface {
-    findAndSave(): void;
+    findAndSave(id:string, data: Partial<UserInterface>): Promise<void>;
 }
 
 const schema = new Schema<
@@ -53,6 +53,7 @@ const schema = new Schema<
     Model<UserInterface>,
     // Les méthodes
     UserMethodsInterface,
+    {},
     {},
     // Les méthodes statiques
     UserStaticsInterface
@@ -92,8 +93,14 @@ const schema = new Schema<
         }
     },
     statics: {
-        findAndSave() {
+        // Récupère le record, le modifie et le sauvegarde
+        async findAndSave(id: string, data: UserInterface) {
+            const record = await this.findById(id);
+            
+            // Mettre les propriétés de data dans le record
+            Object.assign(record, data);
 
+            await record.save();
         }
     }
 });
