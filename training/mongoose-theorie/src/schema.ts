@@ -1,3 +1,4 @@
+import { verify } from "argon2";
 import { Model, model, Schema } from "mongoose";
 
 class BlahBlah {
@@ -58,6 +59,7 @@ interface UserInterface {
 // L'interface qui défini les méthodes liées à l'instance du document
 interface UserMethodsInterface {
     getFullName(): string;
+    verify(plainPassword: string): Promise<boolean>;
 }
 
 // Une virtuelle, équivalente à un getter/setter d'une classe
@@ -109,6 +111,9 @@ const schema = new Schema<
     }
 }, {
     methods: {
+        async verify(password: string) {
+            return verify(this.password, password)
+        },
         getFullName() {
             if(!this.firstName || ! this.lastName) {
                 return 'Anonymous';

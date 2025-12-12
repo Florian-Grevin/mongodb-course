@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { MovieModel, UserModel } from "./schema.ts";
+import argon from "argon2";
 
 async function init() {
     try {
@@ -298,6 +299,42 @@ async function init() {
         firstName: 'Larry',
         email: 'amaury@gmail.com.'
     });
+
+    const passwordClear = "test123*";
+    const hashed = await argon.hash(passwordClear);
+
+    const userPassword = new UserModel({
+        firstName: 'Hash',
+        lastName: 'Man',
+        password: hashed,
+        email: "hash.man@localhost.com"
+
+    })
+
+    await userPassword.save();
+
+    // L'utilisateur envoie son login/mot de passe
+    const login = "hash.man@localhost.com"
+    const password = "test123*"
+
+    // Côté backend
+    const user = await UserModel.findOne({
+        email: login
+    })
+
+    //Vérification du mot de passe
+    if (await argon.verify(user.password, password)) {
+        console.log("On connecte l'utilisateur")
+    } else {
+        console.log("Mauvais mdp")
+    }
+
+
+    console.log(hashed);
+
+    console.log(await argon.verify(hashed, "test123*"));
+    console.log(await argon.verify(hashed, "toto"));
+    console.log(await argon.verify(hashed, "tata*"));
 }   
 
 
