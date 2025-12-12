@@ -266,7 +266,7 @@ async function init() {
     //})
 
     const users = await UserModel.findOne({
-        lastName: 'Amaury',
+        _id: new mongoose.Types.ObjectId('59b99db9cfa9a34dcd7885bf')
     })
 
     console.log(users)
@@ -286,6 +286,12 @@ async function init() {
         email: 'amaury@triptuk.eu',
         password: '123456789'
     })
+
+    // getter get() est appelé
+    console.log(users.fullName);
+    // getter set() est appelé
+    users.fullName = "Amaury Larry"
+    console.log(users.fullName);
 
     await UserModel.findAndSave(users._id.toString(), {
         lastName: 'Amaury',

@@ -1,5 +1,24 @@
 import { Model, model, Schema } from "mongoose";
 
+class BlahBlah {
+    private firstName: string;
+    private lastName: string;
+
+    set fullName(value) {
+        this.firstName = value.split(' ')[0];
+        this.lastName = value.split(' ')[1];
+    }
+
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`
+    }
+}
+
+
+const blablah = new BlahBlah();
+blablah.fullName = "test";
+
+
 const addressSchema = new Schema({
     street: {
         type: String,
@@ -41,6 +60,11 @@ interface UserMethodsInterface {
     getFullName(): string;
 }
 
+// Une virtuelle, équivalente à un getter/setter d'une classe
+interface UserVirtualsInterface {
+    fullName: string;
+}
+
 // Interface qui défini les méthodes statiques liées au Modèle
 interface UserStaticsInterface {
     findAndSave(id:string, data: Partial<UserInterface>): Promise<void>;
@@ -54,7 +78,7 @@ const schema = new Schema<
     // Les méthodes
     UserMethodsInterface,
     {},
-    {},
+    UserVirtualsInterface,
     // Les méthodes statiques
     UserStaticsInterface
     >({
@@ -101,6 +125,17 @@ const schema = new Schema<
             Object.assign(record, data);
 
             await record.save();
+        }
+    },
+    virtuals: {
+        fullName: {
+            get() {
+                return `${this.firstName} ${this.lastName}`;
+            },
+            set(value: string) {
+                this.firstName = value.split(" ")[0];
+                this.lastName = value.split(" ")[1];
+            }
         }
     }
 });
