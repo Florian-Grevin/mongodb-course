@@ -144,7 +144,7 @@ const schemaMovies = new Schema({
     },
     rated: {
         type: String,
-        enuù : ['PG-18', 'R']
+        enuù : ['PG-18', 'R', 'PG-13', 'RATED', 'PG', 'G', 'APPROVED', 'PASSED']
     } 
 });
 

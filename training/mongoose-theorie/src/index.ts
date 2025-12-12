@@ -14,12 +14,12 @@ async function init() {
         console.log('Une erreur est survenue :', e);
     }
 
-/*
+
     const users = await UserModel.findOne({
         name: 'Bowen Marsh'
     });
 
-    const newUser = new UserModel({
+    /*const newUser = new UserModel({
         name: "Amaury Deflorenne",
         email: "amaury@triptyk.eu",
         password: "mdp",
@@ -35,9 +35,8 @@ async function init() {
 
     await newUser.save();
     
-    console.log(users)
-*/
-
+    console.log(users)*/
+/*
     const newMovies = new MovieModel({
         "plot": "Dans une petite ville côtière, un vieil horloger découvre qu’une de ses créations peut arrêter le temps. Les habitants, intrigués et effrayés, doivent décider s’ils veulent vivre éternellement dans un instant figé.",
         "genres": [
@@ -104,6 +103,17 @@ async function init() {
         _id: newMovies.id
     });
 
-    console.log(movies);
-}
+    console.log(movies);*/
+    const FindusersById = await UserModel.findById("59b99ddfcfa9a34dcd788608");
+    console.log(FindusersById)
+
+    //users.overwrite({
+    //    name: "dev@triptyk.eu",
+    //    email: "dev@triptyk.eu"
+    //});
+    //await users.save();
+    //await FindusersById.deleteOne();
+}   
+
+
 init();
