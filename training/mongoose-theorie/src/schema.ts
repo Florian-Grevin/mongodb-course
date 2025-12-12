@@ -21,7 +21,11 @@ const addressSchema = new Schema({
 
 
 const schema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -41,6 +45,15 @@ const schema = new Schema({
     },
     address: {
         type: addressSchema
+    }
+}, {
+    methods: {
+        getFullName() {
+            if(!this.firstName || ! this.lastName) {
+                return 'Annonymous';
+            }
+            return this._id + ' ' + this.firstName + ' ' + this.lastName;
+        }
     }
 });
 
@@ -144,7 +157,7 @@ const schemaMovies = new Schema({
     },
     rated: {
         type: String,
-        enuù : ['PG-18', 'R', 'PG-13', 'RATED', 'PG', 'G', 'APPROVED', 'PASSED']
+        enum : ['PG-18', 'R', 'PG-13', 'RATED', 'PG', 'G', 'APPROVED', 'PASSED']
     } 
 });
 
