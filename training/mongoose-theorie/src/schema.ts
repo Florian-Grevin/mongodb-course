@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Model, model, Schema } from "mongoose";
 
 const addressSchema = new Schema({
     street: {
@@ -20,7 +20,43 @@ const addressSchema = new Schema({
 })
 
 
-const schema = new Schema({
+// Défini la structure de l'instance du document
+interface UserInterface {
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    daysConnected: number,
+    address: {
+        street: string,
+        number: number,
+        country: string,
+        city: string,
+        box: string
+    }
+}
+
+// L'interface qui défini les méthodes liées à l'instance du document
+interface UserMethodsInterface {
+    getFullName(): string;
+}
+
+// Interface qui défini les méthodes statiques liées au Modèle
+interface UserStaticsInterface {
+    findAndSave(): void;
+}
+
+const schema = new Schema<
+    // La structure du document
+    UserInterface,
+    // Le modèle
+    Model<UserInterface>,
+    // Les méthodes
+    UserMethodsInterface,
+    {},
+    // Les méthodes statiques
+    UserStaticsInterface
+    >({
     firstName: {
         type: String,
         required: true
@@ -50,9 +86,14 @@ const schema = new Schema({
     methods: {
         getFullName() {
             if(!this.firstName || ! this.lastName) {
-                return 'Annonymous';
+                return 'Anonymous';
             }
             return this._id + ' ' + this.firstName + ' ' + this.lastName;
+        }
+    },
+    statics: {
+        findAndSave() {
+
         }
     }
 });
